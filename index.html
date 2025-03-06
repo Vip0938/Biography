@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NotJxeremy</title>
-    <link rel="icon" href="https://www.save-free.com/cdn/https://instagram.fgyd4-2.fna.fbcdn.net/v/t51.2885-19/455904992_1462815257764905_4421301597228936168_n.jpg?_nc_ht=instagram.fgyd4-2.fna.fbcdn.net&_nc_cat=109&_nc_oc=Q6cZ2AGYqj4iGw3bSb0BU8wgCTmEE_KhjE8Uo4wy5cb5vJQFJh8AG2HmEBob6Yf79IrKgG4&_nc_ohc=Zvm8D1dRDBYQ7kNvgEHPf2b&_nc_gid=4df521ffd64440f48b2f19be7144fd15&edm=AEF8tYYBAAAA&ccb=7-5&oh=00_AYHKTNCarDl9GspY1Agmx2RnUJNlM6iAqVbiWlR30J5nUg&oe=67D00B7E&_nc_sid=1e20d2" type="image/jpeg">
+    <link rel="icon" href="https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/455904992_1462815257764905_4421301597228936168_n.jpg?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=109&_nc_oc=Q6cZ2AH-ijsA1CWqnOhnV17eMuzkTqM3LioMkQKB1H6zXR5FwHlxSZduC3vfVhWQtt3kHuU&_nc_ohc=Zvm8D1dRDBYQ7kNvgFgelB4&_nc_gid=68473c0c0251461f99b89c20ee281ea8&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_AYF8_C_MSshH3vIAmDkRLW1oyMrjbbsSkCpg9ZQZyA3exA&oe=67D00B7E&_nc_sid=7a9f4b" type="image/jpeg">
     <style>
         * {
             margin: 0;
@@ -118,43 +118,34 @@
             opacity: 1;
         }
         
-        .visualizer {
-            position: absolute;
-            bottom: 0;
+        /* Bloom visualizer background */
+        .bloom-visualizer {
+            position: fixed;
+            top: 0;
             left: 0;
             width: 100%;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 3px;
-            padding: 0 20px 20px;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
         }
         
-        .bar {
-            width: 4px;
-            background-color: rgba(255, 255, 255, 0.4);
-            border-radius: 2px;
-            transition: height 0.2s ease;
-        }
-        
-        .music-info {
+        .bloom {
             position: absolute;
-            bottom: 80px;
-            width: 100%;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 12px;
-            font-weight: 300;
+            border-radius: 50%;
+            filter: blur(30px);
+            opacity: 0;
+            transform: scale(0);
+            transition: opacity 2s ease, transform 2s ease;
         }
     </style>
 </head>
 
 <body>
     <div class="dots"></div>
+    <div class="bloom-visualizer" id="bloom-visualizer"></div>
     
     <div class="card">
-        <img src="https://www.save-free.com/cdn/https://instagram.fgyd4-2.fna.fbcdn.net/v/t51.2885-19/455904992_1462815257764905_4421301597228936168_n.jpg?_nc_ht=instagram.fgyd4-2.fna.fbcdn.net&_nc_cat=109&_nc_oc=Q6cZ2AGYqj4iGw3bSb0BU8wgCTmEE_KhjE8Uo4wy5cb5vJQFJh8AG2HmEBob6Yf79IrKgG4&_nc_ohc=Zvm8D1dRDBYQ7kNvgEHPf2b&_nc_gid=4df521ffd64440f48b2f19be7144fd15&edm=AEF8tYYBAAAA&ccb=7-5&oh=00_AYHKTNCarDl9GspY1Agmx2RnUJNlM6iAqVbiWlR30J5nUg&oe=67D00B7E&_nc_sid=1e20d2" alt="NotJxeremy" class="profile-img">
+        <img src="https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/455904992_1462815257764905_4421301597228936168_n.jpg?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=109&_nc_oc=Q6cZ2AH-ijsA1CWqnOhnV17eMuzkTqM3LioMkQKB1H6zXR5FwHlxSZduC3vfVhWQtt3kHuU&_nc_ohc=Zvm8D1dRDBYQ7kNvgFgelB4&_nc_gid=68473c0c0251461f99b89c20ee281ea8&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_AYF8_C_MSshH3vIAmDkRLW1oyMrjbbsSkCpg9ZQZyA3exA&oe=67D00B7E&_nc_sid=7a9f4b" alt="NotJxeremy" class="profile-img">
         <div class="username">NotJxeremy</div>
         
         <div class="social-icons">
@@ -162,22 +153,14 @@
                 <img src="https://cdn-icons-png.flaticon.com/128/15069/15069134.png" alt="ROBLOX">
             </a>
             <a href="https://www.youtube.com/@Vip0938" target="_blank" class="social-icon">
-                <img src="/api/placeholder/25/25" alt="YouTube">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9Imx1Y2lkZSBsdWNpZGUteW91dHViZSI+PHBhdGggZD0iTTIyLjU0IDYuNDJhMi43OCAyLjc4IDAgMCAwLTEuOTQtMkMxOC44OCA0IDEyIDQgMTIgNHMtNi44OCAwLTguNi40NmEyLjc4IDIuNzggMCAwIDAtMS45NCAyQTI5IDI5IDAgMCAwIDEgMTEuNzVhMjkgMjkgMCAwIDAgLjQ2IDUuMzNBMi43OCAyLjc4IDAgMCAwIDMuNCAxOWMxLjcyLjQ2IDguNi40NiA4LjYuNDZzNi44OCAwIDguNi0uNDZhMi43OCAyLjc4IDAgMCAwIDEuOTQtMiAyOSAyOSAwIDAgMCAuNDYtNS4yNSAyOSAyOSAwIDAgMC0uNDYtNS4zM3oiPjwvcGF0aD48cG9seWdvbiBwb2ludHM9IjkuNzUgMTUuMDIgMTUuNzUgMTEuNzUgOS43NSA4LjQ4Ij48L3BvbHlnb24+PC9zdmc+" alt="YouTube">
             </a>
             <a href="https://www.instagram.com/notjxeremy/" target="_blank" class="social-icon">
-                <img src="/api/placeholder/25/25" alt="Instagram">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9Imx1Y2lkZSBsdWNpZGUtaW5zdGFncmFtIj48cmVjdCB4PSIyIiB5PSIyIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHJ4PSI1IiByeT0iNSI+PC9yZWN0PjxwYXRoIGQ9Ik0xNiAxMS4zN2E0IDQgMCAxIDEtMy44My0zLjgzIj48L3BhdGg+PHBhdGggZD0iTTE3LjUgNi41aC4wMSI+PC9wYXRoPjwvc3ZnPg==" alt="Instagram">
             </a>
             <a href="https://discord.com/users/640015277156991005" target="_blank" class="social-icon">
                 <img src="https://cdn-icons-png.flaticon.com/128/11423/11423407.png" alt="Discord">
             </a>
-        </div>
-        
-        <div class="music-info">
-            <span id="music-title">Loading...</span>
-        </div>
-        
-        <div class="visualizer">
-            <!-- Bars will be dynamically created -->
         </div>
     </div>
     
@@ -185,11 +168,11 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
-        // Change page title with typing effect
+        // Change page title with typing effect - smoother animation
         const text = "NotJxeremy";
         let charIndex = 0;
         let direction = 1; // 1 for typing, -1 for erasing
-        let originalTitle = document.title;
+        let typingInterval;
         
         function updateTitle() {
             if (direction === 1) {
@@ -198,9 +181,10 @@
                     charIndex++;
                     
                     if (charIndex > text.length) {
+                        clearInterval(typingInterval);
                         setTimeout(() => {
                             direction = -1;
-                            updateTitle();
+                            typingInterval = setInterval(updateTitle, 50); // Faster erasing
                         }, 1500);
                         return;
                     }
@@ -211,24 +195,25 @@
                     charIndex--;
                     
                     if (charIndex < 0) {
+                        clearInterval(typingInterval);
                         setTimeout(() => {
                             direction = 1;
-                            updateTitle();
+                            typingInterval = setInterval(updateTitle, 100); // Slower typing
                         }, 500);
                         return;
                     }
                 }
             }
-            
-            setTimeout(updateTitle, direction === 1 ? 150 : 75);
         }
         
-        // Start typing effect for page title
-        setTimeout(updateTitle, 1000);
+        // Start typing effect for page title with smooth intervals
+        setTimeout(() => {
+            typingInterval = setInterval(updateTitle, 100);
+        }, 1000);
         
         // Create floating dots
         const dotsContainer = document.querySelector('.dots');
-        const numDots = 150; // Increased number of dots
+        const numDots = 150;
         
         for (let i = 0; i < numDots; i++) {
             const dot = document.createElement('div');
@@ -243,24 +228,46 @@
             dot.style.left = `${xPos}%`;
             dot.style.top = `${yPos}%`;
             
-            // Set animation
-            dot.style.animation = `float ${Math.random() * 10 + 10}s infinite`;
-            
             dotsContainer.appendChild(dot);
         }
         
-        // Audio visualizer
-        const visualizer = document.querySelector('.visualizer');
-        const numBars = 25;
+        // Mouse movement for dots
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach(dot => {
+                const dotX = parseFloat(dot.style.left) / 100;
+                const dotY = parseFloat(dot.style.top) / 100;
+                
+                // Calculate distance from mouse to dot (0 to 1 scale)
+                const distance = Math.sqrt(Math.pow(mouseX - dotX, 2) + Math.pow(mouseY - dotY, 2));
+                
+                // Move dots based on mouse position (with inverse distance effect)
+                const moveFactorX = (mouseX - 0.5) * 10 * (1 - distance);
+                const moveFactorY = (mouseY - 0.5) * 10 * (1 - distance);
+                
+                // Apply movement
+                dot.style.transform = `translate(${moveFactorX}px, ${moveFactorY}px)`;
+            });
+        });
         
-        for (let i = 0; i < numBars; i++) {
-            const bar = document.createElement('div');
-            bar.classList.add('bar');
-            bar.style.height = `${Math.random() * 30 + 5}px`;
-            visualizer.appendChild(bar);
+        // Create bloom visualizer
+        const bloomContainer = document.getElementById('bloom-visualizer');
+        const numBlooms = 10;
+        const blooms = [];
+        
+        for (let i = 0; i < numBlooms; i++) {
+            const bloom = document.createElement('div');
+            bloom.classList.add('bloom');
+            bloom.style.left = `${Math.random() * 100}%`;
+            bloom.style.top = `${Math.random() * 100}%`;
+            bloomContainer.appendChild(bloom);
+            blooms.push(bloom);
         }
         
-        // Create an audio context and analyzer
+        // Audio visualizer with bloom effects
         let audioContext, analyser, dataArray;
         const musicPlayer = document.getElementById('music-player');
         
@@ -293,7 +300,6 @@
         // Load and play music
         function loadMusic() {
             musicPlayer.src = musicFiles[currentTrack];
-            document.getElementById('music-title').textContent = `Playing: ${musicFiles[currentTrack].replace('Musics/', '').replace('.mp3', '')}`;
             
             musicPlayer.load();
             
@@ -316,9 +322,6 @@
                     // Create a "muted" autoplay as fallback
                     musicPlayer.muted = true;
                     musicPlayer.play().then(() => {
-                        // Once muted autoplay starts, show a message to unmute
-                        document.getElementById('music-title').textContent = "Click to unmute";
-                        
                         // Setup audio context
                         if (!audioContext) {
                             setupAudio();
@@ -327,7 +330,6 @@
                         // Add a one-time click handler to unmute
                         document.body.addEventListener('click', function unmute() {
                             musicPlayer.muted = false;
-                            document.getElementById('music-title').textContent = `Playing: ${musicFiles[currentTrack].replace('Musics/', '').replace('.mp3', '')}`;
                             document.body.removeEventListener('click', unmute);
                         }, { once: true });
                     });
@@ -335,7 +337,7 @@
             }
         }
         
-        // Visualize the music
+        // Visualize the music with bloom effects
         function visualize() {
             requestAnimationFrame(visualize);
             
@@ -343,14 +345,55 @@
             
             analyser.getByteFrequencyData(dataArray);
             
-            const bars = document.querySelectorAll('.bar');
-            const step = Math.floor(dataArray.length / bars.length);
+            // Calculate average frequency values for different ranges
+            const bass = getAverageFrequency(dataArray, 0, 5);
+            const mid = getAverageFrequency(dataArray, 6, 15);
+            const treble = getAverageFrequency(dataArray, 16, 31);
             
-            for (let i = 0; i < bars.length; i++) {
-                const value = dataArray[i * step];
-                const height = value / 255 * 50;
-                bars[i].style.height = `${Math.max(3, height)}px`;
+            // Update bloom visualizers
+            updateBloomVisualizer(bass, mid, treble);
+        }
+        
+        // Get average frequency value for a range
+        function getAverageFrequency(array, start, end) {
+            let sum = 0;
+            for (let i = start; i <= end; i++) {
+                sum += array[i];
             }
+            return sum / (end - start + 1);
+        }
+        
+        // Update bloom visualizer based on audio data
+        function updateBloomVisualizer(bass, mid, treble) {
+            const colors = [
+                `rgba(255, 50, 50, ${bass / 512})`,   // Red for bass
+                `rgba(50, 255, 100, ${mid / 512})`,   // Green for mids
+                `rgba(50, 100, 255, ${treble / 512})` // Blue for treble
+            ];
+            
+            blooms.forEach((bloom, index) => {
+                const colorIndex = index % colors.length;
+                bloom.style.backgroundColor = colors[colorIndex];
+                
+                // Size based on corresponding frequency band
+                let size;
+                if (colorIndex === 0) size = bass;
+                else if (colorIndex === 1) size = mid;
+                else size = treble;
+                
+                size = Math.max(50, size * 2); // Scale size
+                
+                bloom.style.width = `${size}px`;
+                bloom.style.height = `${size}px`;
+                bloom.style.opacity = (size / 255) * 0.7;
+                bloom.style.transform = `scale(${1 + size/255})`;
+                
+                // Randomly reposition bloom occasionally
+                if (Math.random() < 0.01) {
+                    bloom.style.left = `${Math.random() * 100}%`;
+                    bloom.style.top = `${Math.random() * 100}%`;
+                }
+            });
         }
         
         // Handle track ended
@@ -362,29 +405,6 @@
         // Enable music on page load
         window.addEventListener('DOMContentLoaded', () => {
             loadMusic();
-        });
-        
-        // Start floating animation for dots
-        document.styleSheets[0].insertRule(`
-            @keyframes float {
-                0% { transform: translate(0, 0); }
-                25% { transform: translate(10px, 10px); }
-                50% { transform: translate(0, 15px); }
-                75% { transform: translate(-10px, 5px); }
-                100% { transform: translate(0, 0); }
-            }
-        `, document.styleSheets[0].cssRules.length);
-        
-        // Social icons from external sources
-        const socialIcons = [
-            // Roblox and Discord icons are now from external sources
-            { selector: '.social-icon:nth-child(2) img', path: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXlvdXR1YmUiPjxwYXRoIGQ9Ik0yMi41NCA2LjQyYTIuNzggMi43OCAwIDAgMC0xLjk0LTJDMTguODggNCAxMiA0IDEyIDRzLTYuODggMC04LjYuNDZhMi43OCAyLjc4IDAgMCAwLTEuOTQgMkEyOSAyOSAwIDAgMCAxIDExLjc1YTI5IDI5IDAgMCAwIC40NiA1LjMzQTIuNzggMi43OCAwIDAgMCAzLjQgMTljMS43Mi40NiA4LjYuNDYgOC42LjQ2czYuODggMCA4LjYtLjQ2YTIuNzggMi43OCAwIDAgMCAxLjk0LTIgMjkgMjkgMCAwIDAgLjQ2LTUuMjUgMjkgMjkgMCAwIDAtLjQ2LTUuMzN6Ij48L3BhdGg+PHBvbHlnb24gcG9pbnRzPSI5Ljc1IDE1LjAyIDE1Ljc1IDExLjc1IDkuNzUgOC40OCI+PC9wb2x5Z29uPjwvc3ZnPg==" },
-            { selector: '.social-icon:nth-child(3) img', path: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWluc3RhZ3JhbSI+PHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iNSIgcnk9IjUiPjwvcmVjdD48cGF0aCBkPSJNMTYgMTEuMzdhNCA0IDAgMSAxLTMuODMtMy44MyI+PC9wYXRoPjxwYXRoIGQ9Ik0xNy41IDYuNWguMDEiPjwvcGF0aD48L3N2Zz4=" },
-        ];
-        
-        // Set social icons for YouTube and Instagram
-        socialIcons.forEach(icon => {
-            document.querySelector(icon.selector).src = icon.path;
         });
     </script>
 </body>
