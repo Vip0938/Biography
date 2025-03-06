@@ -38,7 +38,6 @@
             background-color: rgba(255, 255, 255, 0.5);
             border-radius: 50%;
             transform: translate(-50%, -50%);
-            transition: transform 0.2s ease;
         }
         
         .card {
@@ -72,11 +71,10 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
         
-        .typing-text {
+        .username {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 25px;
-            min-height: 36px;
             background: linear-gradient(90deg, #c9c9c9, #f1f1f1, #c9c9c9);
             -webkit-background-clip: text;
             background-clip: text;
@@ -112,7 +110,6 @@
         .social-icon img {
             width: 25px;
             height: 25px;
-            filter: invert(1);
             opacity: 0.8;
             transition: all 0.3s ease;
         }
@@ -158,11 +155,11 @@
     
     <div class="card">
         <img src="https://www.save-free.com/cdn/https://instagram.fgyd4-2.fna.fbcdn.net/v/t51.2885-19/455904992_1462815257764905_4421301597228936168_n.jpg?_nc_ht=instagram.fgyd4-2.fna.fbcdn.net&_nc_cat=109&_nc_oc=Q6cZ2AGYqj4iGw3bSb0BU8wgCTmEE_KhjE8Uo4wy5cb5vJQFJh8AG2HmEBob6Yf79IrKgG4&_nc_ohc=Zvm8D1dRDBYQ7kNvgEHPf2b&_nc_gid=4df521ffd64440f48b2f19be7144fd15&edm=AEF8tYYBAAAA&ccb=7-5&oh=00_AYHKTNCarDl9GspY1Agmx2RnUJNlM6iAqVbiWlR30J5nUg&oe=67D00B7E&_nc_sid=1e20d2" alt="NotJxeremy" class="profile-img">
-        <div class="typing-text"></div>
+        <div class="username">NotJxeremy</div>
         
         <div class="social-icons">
             <a href="https://www.roblox.com/users/387328062/profile" target="_blank" class="social-icon">
-                <img src="/api/placeholder/25/25" alt="ROBLOX">
+                <img src="https://cdn-icons-png.flaticon.com/128/15069/15069134.png" alt="ROBLOX">
             </a>
             <a href="https://www.youtube.com/@Vip0938" target="_blank" class="social-icon">
                 <img src="/api/placeholder/25/25" alt="YouTube">
@@ -171,7 +168,7 @@
                 <img src="/api/placeholder/25/25" alt="Instagram">
             </a>
             <a href="https://discord.com/users/640015277156991005" target="_blank" class="social-icon">
-                <img src="/api/placeholder/25/25" alt="Discord">
+                <img src="https://cdn-icons-png.flaticon.com/128/11423/11423407.png" alt="Discord">
             </a>
         </div>
         
@@ -184,41 +181,54 @@
         </div>
     </div>
     
-    <audio id="music-player" loop></audio>
+    <audio id="music-player" autoplay loop></audio>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
-        // Typing effect
+        // Change page title with typing effect
         const text = "NotJxeremy";
-        const typingText = document.querySelector('.typing-text');
         let charIndex = 0;
+        let direction = 1; // 1 for typing, -1 for erasing
+        let originalTitle = document.title;
         
-        function typeText() {
-            if (charIndex < text.length) {
-                typingText.textContent += text.charAt(charIndex);
-                charIndex++;
-                setTimeout(typeText, 150);
+        function updateTitle() {
+            if (direction === 1) {
+                if (charIndex <= text.length) {
+                    document.title = text.substring(0, charIndex) + "|";
+                    charIndex++;
+                    
+                    if (charIndex > text.length) {
+                        setTimeout(() => {
+                            direction = -1;
+                            updateTitle();
+                        }, 1500);
+                        return;
+                    }
+                }
             } else {
-                setTimeout(eraseText, 1500);
+                if (charIndex >= 0) {
+                    document.title = text.substring(0, charIndex) + "|";
+                    charIndex--;
+                    
+                    if (charIndex < 0) {
+                        setTimeout(() => {
+                            direction = 1;
+                            updateTitle();
+                        }, 500);
+                        return;
+                    }
+                }
             }
+            
+            setTimeout(updateTitle, direction === 1 ? 150 : 75);
         }
         
-        function eraseText() {
-            if (charIndex > 0) {
-                typingText.textContent = text.substring(0, charIndex - 1);
-                charIndex--;
-                setTimeout(eraseText, 75);
-            } else {
-                setTimeout(typeText, 500);
-            }
-        }
-        
-        // Start typing
-        setTimeout(typeText, 1000);
+        // Start typing effect for page title
+        setTimeout(updateTitle, 1000);
         
         // Create floating dots
         const dotsContainer = document.querySelector('.dots');
-        const numDots = 50;
+        const numDots = 150; // Increased number of dots
         
         for (let i = 0; i < numDots; i++) {
             const dot = document.createElement('div');
@@ -238,33 +248,6 @@
             
             dotsContainer.appendChild(dot);
         }
-        
-        // Mouse move effect for dots
-        document.addEventListener('mousemove', (e) => {
-            const dots = document.querySelectorAll('.dot');
-            const mouseX = e.clientX;
-            const mouseY = e.clientY;
-            
-            dots.forEach((dot) => {
-                const dotRect = dot.getBoundingClientRect();
-                const dotX = dotRect.left + dotRect.width / 2;
-                const dotY = dotRect.top + dotRect.height / 2;
-                
-                const distX = mouseX - dotX;
-                const distY = mouseY - dotY;
-                const distance = Math.sqrt(distX * distX + distY * distY);
-                
-                if (distance < 150) {
-                    const strength = (150 - distance) / 150;
-                    const moveX = distX * strength * 0.1;
-                    const moveY = distY * strength * 0.1;
-                    
-                    dot.style.transform = `translate(${moveX}px, ${moveY}px)`;
-                } else {
-                    dot.style.transform = 'translate(0, 0)';
-                }
-            });
-        });
         
         // Audio visualizer
         const visualizer = document.querySelector('.visualizer');
@@ -313,20 +296,50 @@
             document.getElementById('music-title').textContent = `Playing: ${musicFiles[currentTrack].replace('Musics/', '').replace('.mp3', '')}`;
             
             musicPlayer.load();
-            musicPlayer.play().catch(e => {
-                console.error('Audio playback error:', e);
-                document.getElementById('music-title').textContent = 'Click anywhere to play music';
-            });
             
-            // Setup audio context on first play
-            if (!audioContext) {
-                setupAudio();
+            // Play music with autoplay workaround
+            let playPromise = musicPlayer.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Autoplay successful
+                    console.log("Autoplay successful");
+                    
+                    // Setup audio context on first play
+                    if (!audioContext) {
+                        setupAudio();
+                    }
+                }).catch(error => {
+                    // Autoplay prevented
+                    console.log("Autoplay prevented:", error);
+                    
+                    // Create a "muted" autoplay as fallback
+                    musicPlayer.muted = true;
+                    musicPlayer.play().then(() => {
+                        // Once muted autoplay starts, show a message to unmute
+                        document.getElementById('music-title').textContent = "Click to unmute";
+                        
+                        // Setup audio context
+                        if (!audioContext) {
+                            setupAudio();
+                        }
+                        
+                        // Add a one-time click handler to unmute
+                        document.body.addEventListener('click', function unmute() {
+                            musicPlayer.muted = false;
+                            document.getElementById('music-title').textContent = `Playing: ${musicFiles[currentTrack].replace('Musics/', '').replace('.mp3', '')}`;
+                            document.body.removeEventListener('click', unmute);
+                        }, { once: true });
+                    });
+                });
             }
         }
         
         // Visualize the music
         function visualize() {
             requestAnimationFrame(visualize);
+            
+            if (!analyser) return;
             
             analyser.getByteFrequencyData(dataArray);
             
@@ -346,15 +359,9 @@
             loadMusic();
         });
         
-        // Enable music on page interaction
-        document.addEventListener('click', () => {
-            if (audioContext && audioContext.state === 'suspended') {
-                audioContext.resume();
-            }
-            
-            if (musicPlayer.paused) {
-                loadMusic();
-            }
+        // Enable music on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadMusic();
         });
         
         // Start floating animation for dots
@@ -368,23 +375,16 @@
             }
         `, document.styleSheets[0].cssRules.length);
         
-        // Add social icons
+        // Social icons from external sources
         const socialIcons = [
-            { selector: '.social-icon:nth-child(1) img', path: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWdhbWluZy1wYWQiPjxsaW5lIHgxPSI2IiB5MT0iMTIiIHgyPSIxMCIgeTI9IjEyIj48L2xpbmU+PGxpbmUgeDE9IjE0IiB5MT0iMTIiIHgyPSIxOCIgeTI9IjEyIj48L2xpbmU+PGxpbmUgeDE9IjEyIiB5MT0iNiIgeDI9IjEyIiB5Mj0iMTAiPjwvbGluZT48bGluZSB4MT0iMTIiIHkxPSIxNCIgeDI9IjEyIiB5Mj0iMTgiPjwvbGluZT48cmVjdCB4PSIyIiB5MT0iMiIgeDI9IjIyIiB5Mj0iMjIiIHJ4PSIyLjE4IiByeT0iMi4xOCI+PC9yZWN0Pjwvc3ZnPg==" },
+            // Roblox and Discord icons are now from external sources
             { selector: '.social-icon:nth-child(2) img', path: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXlvdXR1YmUiPjxwYXRoIGQ9Ik0yMi41NCA2LjQyYTIuNzggMi43OCAwIDAgMC0xLjk0LTJDMTguODggNCAxMiA0IDEyIDRzLTYuODggMC04LjYuNDZhMi43OCAyLjc4IDAgMCAwLTEuOTQgMkEyOSAyOSAwIDAgMCAxIDExLjc1YTI5IDI5IDAgMCAwIC40NiA1LjMzQTIuNzggMi43OCAwIDAgMCAzLjQgMTljMS43Mi40NiA4LjYuNDYgOC42LjQ2czYuODggMCA4LjYtLjQ2YTIuNzggMi43OCAwIDAgMCAxLjk0LTIgMjkgMjkgMCAwIDAgLjQ2LTUuMjUgMjkgMjkgMCAwIDAtLjQ2LTUuMzN6Ij48L3BhdGg+PHBvbHlnb24gcG9pbnRzPSI5Ljc1IDE1LjAyIDE1Ljc1IDExLjc1IDkuNzUgOC40OCI+PC9wb2x5Z29uPjwvc3ZnPg==" },
             { selector: '.social-icon:nth-child(3) img', path: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWluc3RhZ3JhbSI+PHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iNSIgcnk9IjUiPjwvcmVjdD48cGF0aCBkPSJNMTYgMTEuMzdhNCA0IDAgMSAxLTMuODMtMy44MyI+PC9wYXRoPjxwYXRoIGQ9Ik0xNy41IDYuNWguMDEiPjwvcGF0aD48L3N2Zz4=" },
-            { selector: '.social-icon:nth-child(4) img', path: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLW1lc3NhZ2VzLXNxdWFyZSI+PHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiB4PSIyIiB5PSIyIiByeD0iMiI+PC9yZWN0PjxwYXRoIGQ9Ik04IDhoOCI+PC9wYXRoPjxwYXRoIGQ9Ik04IDEyaDQiPjwvcGF0aD48cGF0aCBkPSJNOSAxNmgxMFYySDIwdjhoMTB2NmgtNmgtOC01djFoNXYtOWg4di0xeiI+PC9wYXRoPjwvc3ZnPg==" },
         ];
         
-        // Set social icons
+        // Set social icons for YouTube and Instagram
         socialIcons.forEach(icon => {
             document.querySelector(icon.selector).src = icon.path;
-        });
-        
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            // Attempt to load music (user interaction might be needed)
-            document.getElementById('music-title').textContent = 'Click anywhere to play music';
         });
     </script>
 </body>
