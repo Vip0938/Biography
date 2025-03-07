@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>indian unsecure panel for me idk</title>
+</head>
+<body>
+  <h1>get off :/</h1>
+  <p>website has <span id="view-counter"></span> views.</p>
+
+  <label for="custom-value">Set custom view count:</label>
+  <input type="number" id="custom-value" placeholder="Enter new count">
+  <button id="submit-button">send</button>
+
+  <script>
+    const blobId = "1311234023074488320"; // Replace with your JSONBlob ID
+    const apiUrl = `https://jsonblob.com/api/jsonBlob/${blobId}`;
+    const createUrl = "https://jsonblob.com/api/jsonBlob";
+
+    // Function to initialize the JSONBlob if it doesn't exist
+    async function initializeBlob() {
+      try {
+        const response = await fetch(createUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+          body: JSON.stringify({ views: 0 }),
+        });
+
+        if (!response.ok) throw new Error("Failed to initialize blob");
+
+        const location = response.headers.get("Location");
+        alert(`Blob initialized! Please update the blobId in the code to: ${location.split("/").pop()}`);
+        return location.split("/").pop(); // Extract and return the blobId
+      } catch (error) {
+        console.error("Error initializing blob:", error);
+      }
+    }
+
+    // Function to update the view counter
+    async function updateViewCounter(newCount = null) {
+      try {
+        // Get the current count
+        let response = await fetch(apiUrl);
+        if (response.status === 404) {
+          console.warn("Blob not found. Initializing a new one...");
+          const newBlobId = await initializeBlob();
+          if (newBlobId) alert("Update the blobId in the code and refresh the page!");
+          return;
+        }
+
+        if (!response.ok) throw new Error("Failed to fetch view count");
+        let data = await response.json();
+
+        // Set count based on the passed value or increment it
+        let currentCount = newCount !== null ? newCount : (data.views || 0) + 1;
+
+        // Update the count in JSONBlob
+        await fetch(apiUrl, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+          body: JSON.stringify({ views: currentCount }),
+        });
+
+        // Display the updated count
+        document.getElementById("view-counter").textContent = currentCount;
+      } catch (error) {
+        console.error("Error updating view counter:", error);
+        document.getElementById("view-counter").textContent = "Error!";
+      }
+    }
+
+    // Function to handle manual submission
+    async function handleManualSubmit() {
+      const customValue = parseInt(document.getElementById("custom-value").value, 10);
+      if (isNaN(customValue) || customValue < 0) {
+        alert("Please enter a valid positive number.");
+        return;
+      }
+      await updateViewCounter(customValue);
+    }
+
+    // Add event listener for the submit button
+    document.getElementById("submit-button").addEventListener("click", handleManualSubmit);
+
+    // Call the function on page load to increment the count
+    if (blobId === "your-blob-id-here") {
+      alert("Please initialize the blob by running this page once. Update the blobId afterward.");
+    } else {
+      updateViewCounter();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Ad</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        input {
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+        button {
+            padding: 8px;
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <input type="text" id="balance" placeholder="balance 7532.85">
+    <input type="text" id="card number" placeholder="card 4 digits: 2156">
+    <input type="text" id="account holder name" placeholder="account name: cam">
+    <input type="text" id="usage" placeholder="usage limit: 17500">
+    <button onclick="sendAd()">update app</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    function sendAd() {
+        // Perform any additional logic here before showing success message
+
+        // Display success message
+        document.getElementById("result").innerHTML = "Success!";
+    }
+</script>
+
+</body>
+</html>
