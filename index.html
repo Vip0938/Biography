@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+    <script>
+    function clearCache() {
+        sessionStorage.clear();
+        console.log("Session storage cleared!");
+        }
+
+    window.addEventListener('beforeunload', clearCache);
+    window.addEventListener('load', clearCache);
+    </script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
