@@ -3,20 +3,463 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>indian unsecure panel for me idk</title>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-bg: #1a1a1a;
+      --secondary-bg: #0f0f0f;
+      --card-bg: #212121;
+      --accent-color: #0071e3;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0a0;
+      --border-color: #333333;
+      --success-color: #30d158;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+      --popup-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--secondary-bg);
+      color: var(--text-primary);
+      line-height: 1.5;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      width: 100%;
+      flex: 1;
+    }
+    
+    header {
+      background-color: rgba(26, 26, 26, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 0;
+    }
+    
+    .header-content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .logo {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, #0071e3, #40c8e0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 32px;
+      margin-bottom: 24px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid var(--border-color);
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    
+    h1 {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      background: linear-gradient(90deg, #0071e3, #40c8e0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, #a0a0a0, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    p {
+      font-size: 17px;
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+    }
+    
+    .metrics {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    
+    .counter {
+      font-size: 80px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #0071e3, #40c8e0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    
+    .label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      display: block;
+    }
+    
+    button {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+    
+    button:hover {
+      background-color: #0062c4;
+    }
+    
+    button:active {
+      transform: scale(0.98);
+    }
+    
+    .action-button {
+      background: rgba(0, 113, 227, 0.2);
+      color: var(--accent-color);
+      border: 1px solid rgba(0, 113, 227, 0.3);
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .action-button:hover {
+      background: rgba(0, 113, 227, 0.3);
+    }
+    
+    .notification {
+      padding: 12px 16px;
+      border-radius: 8px;
+      background-color: var(--success-color);
+      color: white;
+      font-weight: 500;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .error {
+      background-color: #ff453a;
+    }
+    
+    /* Popup styles */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .popup-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .popup {
+      background-color: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: var(--popup-shadow);
+      padding: 32px;
+      width: 90%;
+      max-width: 400px;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+      border: 1px solid var(--border-color);
+    }
+    
+    .popup-overlay.active .popup {
+      transform: scale(1);
+    }
+    
+    .popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    
+    .popup-title {
+      font-size: 24px;
+      font-weight: 600;
+      background: linear-gradient(90deg, #0071e3, #40c8e0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .close-button {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      transition: background-color 0.2s ease;
+    }
+    
+    .close-button:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .form-group {
+      margin-bottom: 24px;
+    }
+    
+    input {
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background-color: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      font-family: inherit;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2);
+    }
+    
+    .popup-actions {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .popup-button {
+      flex: 1;
+      padding: 14px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    
+    .cancel-button {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+    }
+    
+    .cancel-button:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    @media (max-width: 768px) {
+      .card {
+        padding: 24px;
+      }
+      
+      h1 {
+        font-size: 32px;
+      }
+      
+      .counter {
+        font-size: 60px;
+      }
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 24px;
+      background-color: var(--primary-bg);
+      color: var(--text-secondary);
+      font-size: 14px;
+      border-top: 1px solid var(--border-color);
+    }
+  </style>
 </head>
-<body>
-  <h1>get off :/</h1>
-  <p>website has <span id="view-counter"></span> views.</p>
 
-  <label for="custom-value">Set custom view count:</label>
-  <input type="number" id="custom-value" placeholder="Enter new count">
-  <button id="submit-button">send</button>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">Analytics</div>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div class="card">
+      <h1>Dashboard</h1>
+      <p>Real-time website analytics</p>
+      
+      <div class="metrics">
+        <div>
+          <span class="counter" id="view-counter">-</span>
+          <p>Total Views</p>
+        </div>
+      </div>
+      
+      <button class="action-button" id="update-button">
+        <i class="fas fa-edit"></i> Update Count
+      </button>
+      
+      <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Count updated successfully!</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Popup Overlay -->
+  <div class="popup-overlay" id="popup-overlay">
+    <div class="popup">
+      <div class="popup-header">
+        <div class="popup-title">Update View Count</div>
+        <button class="close-button" id="close-popup">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="form-group">
+        <span class="label">Enter new count</span>
+        <input type="number" id="custom-value" placeholder="Enter value" min="0">
+      </div>
+      
+      <div class="popup-actions">
+        <button class="popup-button cancel-button" id="cancel-button">Cancel</button>
+        <button class="popup-button" id="submit-button">Update</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    Analytics Dashboard &copy; 2025
+  </div>
 
   <script>
     const blobId = "1348157845404835840"; // Replace with your JSONBlob ID
     const apiUrl = `https://jsonblob.com/api/jsonBlob/${blobId}`;
     const createUrl = "https://jsonblob.com/api/jsonBlob";
+    
+    // Popup elements
+    const popupOverlay = document.getElementById('popup-overlay');
+    const updateButton = document.getElementById('update-button');
+    const closePopupButton = document.getElementById('close-popup');
+    const cancelButton = document.getElementById('cancel-button');
+    const customValueInput = document.getElementById('custom-value');
+    
+    // Open popup
+    updateButton.addEventListener('click', () => {
+      popupOverlay.classList.add('active');
+      customValueInput.focus();
+    });
+    
+    // Close popup
+    function closePopup() {
+      popupOverlay.classList.remove('active');
+      customValueInput.value = '';
+    }
+    
+    closePopupButton.addEventListener('click', closePopup);
+    cancelButton.addEventListener('click', closePopup);
+    
+    // Close popup when clicking outside
+    popupOverlay.addEventListener('click', (e) => {
+      if (e.target === popupOverlay) {
+        closePopup();
+      }
+    });
+    
+    // Prevent propagation when clicking on popup content
+    document.querySelector('.popup').addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+    
+    // Notification functions
+    function showNotification(message, isError = false) {
+      const notification = document.getElementById('notification');
+      const notificationText = document.getElementById('notification-text');
+      
+      notification.classList.remove('show', 'error');
+      
+      if (isError) {
+        notification.classList.add('error');
+      }
+      
+      notificationText.textContent = message;
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
 
     // Function to initialize the JSONBlob if it doesn't exist
     async function initializeBlob() {
@@ -29,14 +472,17 @@
           },
           body: JSON.stringify({ views: 0 }),
         });
-
+        
         if (!response.ok) throw new Error("Failed to initialize blob");
-
+        
         const location = response.headers.get("Location");
-        alert(`Blob initialized! Please update the blobId in the code to: ${location.split("/").pop()}`);
-        return location.split("/").pop(); // Extract and return the blobId
+        const newBlobId = location.split("/").pop();
+        
+        showNotification(`Blob initialized! Update blobId to: ${newBlobId}`);
+        return newBlobId;
       } catch (error) {
         console.error("Error initializing blob:", error);
+        showNotification("Error initializing data storage", true);
       }
     }
 
@@ -44,20 +490,23 @@
     async function updateViewCounter(newCount = null) {
       try {
         // Get the current count
+        document.getElementById("view-counter").textContent = "...";
+        
         let response = await fetch(apiUrl);
         if (response.status === 404) {
           console.warn("Blob not found. Initializing a new one...");
           const newBlobId = await initializeBlob();
-          if (newBlobId) alert("Update the blobId in the code and refresh the page!");
+          if (newBlobId) showNotification("Update the blobId in the code and refresh the page!");
           return;
         }
-
+        
         if (!response.ok) throw new Error("Failed to fetch view count");
+        
         let data = await response.json();
-
+        
         // Set count based on the passed value or increment it
         let currentCount = newCount !== null ? newCount : (data.views || 0) + 1;
-
+        
         // Update the count in JSONBlob
         await fetch(apiUrl, {
           method: "PUT",
@@ -67,31 +516,74 @@
           },
           body: JSON.stringify({ views: currentCount }),
         });
-
-        // Display the updated count
-        document.getElementById("view-counter").textContent = currentCount;
+        
+        // Display the updated count with animation
+        const counterElement = document.getElementById("view-counter");
+        animateCounter(parseInt(counterElement.textContent) || 0, currentCount, counterElement);
+        
+        if (newCount !== null) {
+          showNotification("View count updated successfully!");
+          closePopup();
+        }
       } catch (error) {
         console.error("Error updating view counter:", error);
         document.getElementById("view-counter").textContent = "Error!";
+        showNotification("Failed to update view count", true);
       }
+    }
+
+    // Animated counter
+    function animateCounter(start, end, element) {
+      const duration = 1000;
+      const startTime = performance.now();
+      
+      function updateCounter(currentTime) {
+        const elapsedTime = currentTime - startTime;
+        const progress = Math.min(elapsedTime / duration, 1);
+        const easedProgress = easeOutQuart(progress);
+        const currentValue = Math.floor(start + (end - start) * easedProgress);
+        
+        element.textContent = currentValue;
+        
+        if (progress < 1) {
+          requestAnimationFrame(updateCounter);
+        } else {
+          element.textContent = end;
+        }
+      }
+      
+      requestAnimationFrame(updateCounter);
+    }
+
+    // Easing function for smooth animation
+    function easeOutQuart(x) {
+      return 1 - Math.pow(1 - x, 4);
     }
 
     // Function to handle manual submission
     async function handleManualSubmit() {
       const customValue = parseInt(document.getElementById("custom-value").value, 10);
       if (isNaN(customValue) || customValue < 0) {
-        alert("Please enter a valid positive number.");
+        showNotification("Please enter a valid positive number", true);
         return;
       }
+      
       await updateViewCounter(customValue);
     }
 
     // Add event listener for the submit button
     document.getElementById("submit-button").addEventListener("click", handleManualSubmit);
+    
+    // Allow submission with Enter key
+    document.getElementById("custom-value").addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        handleManualSubmit();
+      }
+    });
 
     // Call the function on page load to increment the count
     if (blobId === "your-blob-id-here") {
-      alert("Please initialize the blob by running this page once. Update the blobId afterward.");
+      showNotification("Please initialize the blob by running this page once. Update the blobId afterward.", true);
     } else {
       updateViewCounter();
     }
