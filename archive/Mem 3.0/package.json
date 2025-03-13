@@ -1,0 +1,31 @@
+{
+  "name": "roblox-stream-sniper-bot",
+  "version": "1.0.0",
+  "description": "Discord bot for finding specific Roblox users in games",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "deploy": "node deploy-commands.js"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/roblox-stream-sniper-bot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "roblox",
+    "stream",
+    "sniper"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
